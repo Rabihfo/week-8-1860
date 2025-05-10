@@ -1,28 +1,19 @@
-CHIP DisplayCounter201849171 {
+CHIP DisplayCounter201849171{
     IN inc, reset;
     OUT a, b, c, d, e, f, g;
 
     PARTS:
-    // Generate constants
-    Not(in=true, out=false);
-    Or(a=inc, b=reset, out=load);
-
-    // Register for counting
-    Register(in=incrOut, load=load, out=counterOut);
-
-    // Increment logic
-    Inc16(in=counterOut, out=incOut);
-
-    // Reset logic using a 16-bit zero constant
-    Mux16(a=incOut, b=false, sel=reset, out=incrOut);
-
-    // Extract lower 4 bits safely using dummy `And` trick
-    And(a=counterOut[0], b=true, out=D);
-    And(a=counterOut[1], b=true, out=C);
-    And(a=counterOut[2], b=true, out=B);
-    And(a=counterOut[3], b=true, out=A);
-
-    // Connect to 7-segment decoder
-    Decoder201849171(A=A, B=B, C=C, D=D,
-                     a=a, b=b, c=c, d=d, e=e, f=f, g=g);
+   
+    // 16-bit counter register
+    Register(in=counterOut, load=load, out=counter);
+   
+    // Increment counter
+    Inc16(in=counter, out=incremented);
+   
+    // Multiplexer to choose between reset and incremented value
+    Mux16(a=incremented, b=false, sel=reset, out=counterOut);
+   
+    // Decoder to drive 7-segment display
+    Decoder201800666(A=counter[0], B=counter[1], C=counter[2], D=counter[3],
+            a=a, b=b, c=c, d=d, e=e, f=f, g=g);
 }
