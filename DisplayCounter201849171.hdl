@@ -1,0 +1,27 @@
+CHIP DisplayCounter201849171 {
+    IN inc, reset;
+    OUT a, b, c, d, e, f, g;
+
+    PARTS:
+    // 16-bit counter register
+    Register(in=incrOut, load=load, out=counterOut);
+
+    // Increment logic
+    Inc16(in=counterOut, out=incOut);
+
+    // Mux: select between reset (zero) and incOut
+    Mux16(a=incOut, b=false16, sel=reset, out=incrOut);
+
+    // Load control: only load on inc or reset
+    Or(a=inc, b=reset, out=load);
+
+    // Use only the lowest 4 bits for decoder
+    And(a=true, b=counterOut[0], out=D);
+    And(a=true, b=counterOut[1], out=C);
+    And(a=true, b=counterOut[2], out=B);
+    And(a=true, b=counterOut[3], out=A);
+
+    // 7-segment decoder
+    Decoder201849171(A=A, B=B, C=C, D=D,
+                     a=a, b=b, c=c, d=d, e=e, f=f, g=g);
+}
