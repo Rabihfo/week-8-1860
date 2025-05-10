@@ -1,0 +1,28 @@
+CHIP Decodera { 
+	IN A,B,C,D;
+	OUT a;
+
+	PARTS:
+	Not(in=A,out=nA);
+	Not(in=B,out=nB);
+	Not(in=C,out=nC);
+	Not(in=D,out=nD);
+	And(a=nA,b=C,out=nAC);
+	And(a=nAC,b=nD,out=a1);
+	And(a=nB,b=nC,out=nBnC);
+	And(a=nBnC,b=nD,out=a2);
+	And(a=nB,b=C,out=nBC);
+	And(a=nBC,b=D,out=a3);
+	And(a=B,b=nC,out=BnC);
+	And(a=BnC,b=D,out=a4);
+	And(a=A,b=B,out=AB);
+	And(a=AB,b=nD,out=a5);
+	And(a=A,b=nB,out=AnB);
+	And(a=nC,b=D,out=nCD);
+	And(a=AnB,b=nCD,out=a6);
+	Or(a=a1,b=a2,out=fa1);
+	Or(a=a3,b=a4,out=fa2);
+	Or(a=fa1,b=fa2,out=fa3);
+	Or(a=a5,b=a6,out=fa4);
+	Or(a=fa3,b=fa4,out=a);
+}

@@ -1,0 +1,48 @@
+CHIP Decoderg {
+    IN A, B, C, D;
+    OUT g;
+
+    PARTS:
+    Not(in= A, out= NotA);
+    Not(in= B, out= NotB);
+    Not(in= C, out= NotC);
+    Not(in= D, out= NotD);
+
+    And(a = NotA,b = NotB, out= PartA);
+
+
+
+    And(a = NotA, b= B, out = firstHalfG);
+    And(a = NotC, b= NotD, out= SecondHalfG);
+    And(a= firstHalfG, b= SecondHalfG, out=PartG);
+
+    And(a= NotA, b= B, out=FirstHalfB);
+    And(a= C, b= D, out=SecondHalfB);
+    And(a=FirstHalfB, b=SecondHalfB, out=PartB);
+
+    And(a= A, b= NotB, out=FirstHalfC);
+    And(a= NotC, b= NotD, out=SecondHalfC);
+    And(a=FirstHalfC, b=SecondHalfC, out=PartC);
+
+    And(a= A, b= NotB, out=FirstHalfD);
+    And(a= C, b= NotD, out=SecondHalfD);
+    And(a=FirstHalfD, b=SecondHalfD, out=PartD);
+
+    And(a= A, b= B, out=FirstHalfE);
+    And(a= NotC, b= D, out=SecondHalfE);
+    And(a=FirstHalfE, b=SecondHalfE, out=PartE);
+
+
+    And(a= A, b= NotB, out=FirstHalfF);
+    And(a= NotC, b= D, out=SecondHalfF);
+    And(a=FirstHalfF, b=SecondHalfF, out=PartF);
+
+
+    Or(a= PartA, b= PartB, out=FirstThird);
+    Or(a= PartC, b= PartD, out=SecondThird);
+    Or(a= PartE, b=PartF, out= ThirdThirds);
+    Or(a= FirstThird, b= SecondThird, out=TwoThirds);
+    Or(a= TwoThirds, b= ThirdThirds, out=nearFinal);
+    Or(a= nearFinal, b=PartG, out= g);
+
+}

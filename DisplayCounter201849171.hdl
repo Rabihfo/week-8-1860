@@ -3,17 +3,7 @@ CHIP DisplayCounter201849171{
     OUT a, b, c, d, e, f, g;
 
     PARTS:
-   
-    // 16-bit counter register
-    Register(in=counterOut, load=load, out=counter);
-   
-    // Increment counter
-    Inc16(in=counter, out=incremented);
-   
-    // Multiplexer to choose between reset and incremented value
-    Mux16(a=incremented, b=false, sel=reset, out=counterOut);
-   
-    // Decoder to drive 7-segment display
-    Decoder201849171(A=counter[0], B=counter[1], C=counter[2], D=counter[3],
-            a=a, b=b, c=c, d=d, e=e, f=f, g=g);
+    Counter4(inc=inc,reset=reset,out[0]=D,out[1]=C,out[2]=B,out[3]=A);
+
+    Decoder201849171(A=A, B=B, C=C, D=D, a=a, b=b, c=c, d=d, e=e, f=f, g=g);
 }

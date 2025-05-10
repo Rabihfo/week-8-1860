@@ -1,0 +1,20 @@
+CHIP Decoderb {
+	IN A,B,C,D;
+	OUT b;
+
+	PARTS:
+	Not(in=A,out=nA);
+	Not(in=B,out=nB);
+	Not(in=C,out=nC);
+	Not(in=D,out=nD);
+	And(a=nA,b=C,out=nAc);
+	And(a=nAc,b=nD,out=b1);
+	And(a=nB,b=nC,out=nBnC);
+	And(a=nBnC,b=nD,out=b2);
+	And(a=A,b=C,out=b3);
+	And(a=A,b=B,out=AB);
+	And(a=AB,b=nC,out=b4);
+	Or(a=b1,b=b2,out=fb1);
+	Or(a=b3,b=b4,out=fb2);
+	Or(a=fb1,b=fb2,out=b);
+}

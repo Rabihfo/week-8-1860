@@ -1,0 +1,22 @@
+CHIP Decodere {
+    IN A, B, C, D;
+    OUT e;
+
+    PARTS:
+
+    Not(in=A, out=notA);
+    Not(in=B, out=notB);
+    Not(in=C, out=notC);
+    Not(in=D, out=notD);
+
+    And(a=notA, b=B, out=term1);       // notA AND B
+    And(a=A, b=notB, out=term2);          // A AND notB
+    And(a=notC, b=D, out=term3);          // notC AND D
+    And(a=notA, b=notC, out=term4);    // notA AND notC
+    And(a=notA, b=D, out=term5);          // notA AND D
+
+    Or(a=term1, b=term2, out=inter1);
+    Or(a=term3, b=term4, out=inter2);
+    Or(a=inter1, b=inter2, out=inter3);
+    Or(a=inter3, b=term5, out=e);
+}

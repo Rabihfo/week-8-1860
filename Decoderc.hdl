@@ -1,0 +1,24 @@
+CHIP Decoderc {
+	IN A,B,C,D;
+	OUT c;
+
+PARTS:
+Not(in=A, out=notA);
+Not(in=B, out=notB);
+Not(in=C, out=notC);
+Not(in=D, out=notD);
+
+And(a=C, b=notD, out=termC1);
+And(a=A, b=C, out=termC2);
+And(a=A, b=D, out=termC3);
+And(a=A, b=notB, out=termC4);
+And(a=notB, b=C, out=termC5);
+And(a=notA, b=B, out=termCp6);
+And(a=termCp6, b=notC, out=termC6);
+
+Or(a=termC1, b=termC2, out=interC1);
+Or(a=termC3, b=termC4, out=interC2);
+Or(a=termC5, b=termC6, out=interC3);
+Or(a=interC1, b=interC2, out=interC4);
+Or(a=interC3, b=interC4, out=c);
+}
